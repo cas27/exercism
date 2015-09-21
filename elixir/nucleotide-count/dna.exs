@@ -12,9 +12,18 @@ defmodule DNA do
   iex> DNA.count('AATAA', ?T)
   1
   """
+  def count([],_), do: 0
   @spec count([char], char) :: non_neg_integer
   def count(strand, nucleotide) do
+    Enum.reduce(strand, 0, &(increment_on_match(&1, nucleotide) + &2))
+  end
 
+  def increment_on_match(test, nucleotide) do
+    if test == nucleotide do
+     1
+    else
+     0
+    end
   end
 
 
@@ -28,6 +37,7 @@ defmodule DNA do
   """
   @spec nucleotide_counts([char]) :: Dict.t
   def nucleotide_counts(strand) do
-
+    count = Enum.reduce(@nucleotides, %{}, &Map.put(&2,&1,0))
+    Enum.reduce(strand, count, &Map.update(&2,&1,0, fn(x) -> x + 1 end))
   end
 end
