@@ -25,11 +25,11 @@ defmodule Series do
   """
   @spec largest_product(String.t, non_neg_integer) :: non_neg_integer
   def largest_product(number_string, size) do
-    [head | tail] = slices(number_string, size)
+    slices(number_string, size)
     |> Enum.reduce([], fn(x, acc) -> acc ++
       [Enum.reduce(x, &(&1 * &2))]
     end)
     |> Enum.sort(&(&1 > &2))
-    head
+    |> Enum.max
   end
 end
